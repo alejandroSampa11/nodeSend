@@ -40,7 +40,7 @@ const autenticarUsuario = async (req, res, next) => {
     }
 }
 const usuarioAutenticado = async (req, res, next) => {
-    req.json({usuario: req.usuario})
+    res.json({usuario: req.usuario})
 }
 
 export {
