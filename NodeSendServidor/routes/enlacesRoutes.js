@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { nuevoEnlace, obtenerEnlace } from '../controllers/enlacesController.js'
+import { nuevoEnlace, obtenerEnlace, todosEnlaces } from '../controllers/enlacesController.js'
 import { eliminarArchivo } from "../controllers/archivosController.js";
 import { check } from "express-validator";
 import auth from "../middleware/auth.js";
@@ -12,7 +12,9 @@ router.post('/',
     ],
     auth,
     nuevoEnlace
-)
+);
+
+router.get('/', todosEnlaces)
 
 router.get('/:url',
     obtenerEnlace,

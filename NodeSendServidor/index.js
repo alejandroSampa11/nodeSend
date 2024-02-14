@@ -29,12 +29,15 @@ app.use('/api/archivos', archivosRoutes)
 //PUERTO DE LA APP
 const port = process.env.PORT || 4000;
 
+//HABILITAR CARPETA PUBLICA
+app.use(express.static('uploads'));
+
 
 
 
 
 
 //ARRANCAR LA APP
-app.listen(port,'0.0.0.0',()=>{
+app.listen(port,()=>{
     console.log(`El Servidor esta Funcionando en el puerto ${port}`)
 })

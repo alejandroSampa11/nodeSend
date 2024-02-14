@@ -10,12 +10,14 @@ const nuevoEnlace = async(req, res, next)=>{
         return res.status(404).json({errores: errores.array()})
     }
 
+    // console.log(req.body)
+
     //CREAR UN OBJETO
-    const {nombre_original ,password} = req.body
+    const {nombre_original, nombre} = req.body
 
     const enlace = new Enlace();
     enlace.url = shortid.generate();
-    enlace.nombre = shortid.generate();
+    enlace.nombre = nombre;
     enlace.nombre_original = nombre_original
     
     //SI EL USUARIO ESTA AUTENTICADO
@@ -48,6 +50,7 @@ const nuevoEnlace = async(req, res, next)=>{
 //OBTENER EL ENLACE
 const obtenerEnlace = async(req,res, next)=>{
     const {url} = req.params
+    console.log(url)
     //VERIFICAR SI EXISTE EL ENLACE
     const enlace = await Enlace.findOne({url})
     if(!enlace){
@@ -57,25 +60,21 @@ const obtenerEnlace = async(req,res, next)=>{
 
     //SI EL ENLACE EXISTE
     res.json({archivo: enlace.nombre})
-    const {descargas, nombre, } = enlace;
+    next()
+}
 
-    //SI LAS DESCARGAS SON IGUALES A 1 (BORRAR LA ENTRDA Y BORRAR EL ARCHIVO)
-    if(descargas === 1){
-        //ELIMINAR EL ARCHIVO
-        req.archivo = nombre
-        
-        //ELIMINAR LA ENTRADA DE LA BD
-        await Enlace.findOneAndDelete({url:req.params.url})
-        next()
-    }else{
-        //SI LAS DESCARGAS SON > A 1 (RESTAR 1)
-        enlace.descargas--;
-        await enlace.save()
+//OBTENER UN LISTADO DE TODOS LOS ENLACES
+const todosEnlaces = async(req, res)=>{
+    try {
+        const enlaces= await Enlace.find({}).select('url -_id');
+        res.json({enlaces})
+    } catch (error) {
+        console.log(error)
     }
-
 }
 
 export {
     nuevoEnlace,
-    obtenerEnlace
+    obtenerEnlace,
+    todosEnlaces
 }
