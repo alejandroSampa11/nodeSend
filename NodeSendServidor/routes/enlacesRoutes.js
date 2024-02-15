@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { nuevoEnlace, obtenerEnlace, todosEnlaces } from '../controllers/enlacesController.js'
+import { nuevoEnlace, obtenerEnlace, todosEnlaces, tienePassword, verificarPassword} from '../controllers/enlacesController.js'
 import { eliminarArchivo } from "../controllers/archivosController.js";
 import { check } from "express-validator";
 import auth from "../middleware/auth.js";
@@ -17,8 +17,13 @@ router.post('/',
 router.get('/', todosEnlaces)
 
 router.get('/:url',
-    obtenerEnlace,
-    eliminarArchivo
+    tienePassword,
+    obtenerEnlace
+)
+
+router.post('/:url',
+    verificarPassword,
+    obtenerEnlace
 )
 
 export default router;

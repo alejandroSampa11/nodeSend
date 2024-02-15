@@ -43,13 +43,15 @@ const eliminarArchivo = async (req, res) => {
 const descargar = async(req, res, next)=>{
     //OBTIENE EL ENLACE
     const {archivo} = req.params;
+    console.log('EL ARCHIVO Q LLEGA ',archivo)
     const enlace = await Enlace.findOne({nombre: archivo})
+    console.log("SOY EN ENLACE ",enlace)
 
     const archivoDescarga = './../NodeSendServidor/uploads/'+archivo;
     res.download(archivoDescarga)
 
     //ELIMINAR EL ARCHIVO Y LA ENTRADA A LA BD
-    const {descargas, nombre, } = enlace;
+    const {descargas, nombre} = enlace;
 
     //SI LAS DESCARGAS SON IGUALES A 1 (BORRAR LA ENTRDA Y BORRAR EL ARCHIVO)
     if(descargas === 1){

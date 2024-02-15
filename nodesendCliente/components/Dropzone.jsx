@@ -3,9 +3,15 @@ import { useDropzone } from "react-dropzone";
 import { useCallback } from "react";
 import clienteAxios from "../config/clienteAxios";
 import appContext from "../context/app/appContext";
+import authContext from "../context/auth/authContext";
+import Formulario from "./Formulario";
 
 function Dropzone() {
 
+  //CONTEXT DE LA AUTENTICACION
+  const AuthContext = useContext(authContext)
+  const {autenticado, usuario} = AuthContext;
+  //CONTEXT DE LA APP
   const AppContext = useContext(appContext)
   const { mostrarAlerta, subirArchivo, cargando, crearEnlace } = AppContext;
 
@@ -44,6 +50,8 @@ function Dropzone() {
         <div className=" text-center mt-10 w-full">
           <h4 className="text-2xl font-bold text-center mb-4">Archivos</h4>
           <ul>{archivos}</ul>
+
+          {autenticado ? <Formulario/> : ""}
 
           {cargando ? 
           (<p className="my-10 text-center text-gray-600">Subiendo Archivo...</p>) : (
